@@ -1,5 +1,5 @@
 <?php
-	if($_SERVER["HTTPS"] != "on")
+	if($_SERVER["HTTPS"] != "on") // Force HTTPS
 	{
 		header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
 	}
@@ -7,7 +7,7 @@
 	
 	session_start();
 	
-	if(!isset($_SESSION['user']) || !isset($_SESSION['priv']) || $_SESSION['priv'] != "user")
+	if(!isset($_SESSION['user']) || !isset($_SESSION['priv']) || $_SESSION['priv'] != "user") // If user is not logged in, or is logged in and isn't a user, redirect to login
 	{
 		header("location: login.php");
 		exit();
