@@ -8,9 +8,12 @@
 	}
 	else;
 	
-	$user = $_POST["username"];
-	$pass = $_POST["pass"];
-	$email = $_POST["email"];
+	$user = stripslashes($_POST["username"]);
+	$user = $db->real_escape_string($user);
+	$pass = stripslashes($_POST["pass"]);
+	$pass = $db->real_escape_string($pass);
+	$email = stripslashes($_POST["email"]);
+	$email = $db->real_escape_string($email);
 	
 	$emailChunks = explode(" ", $email);
 	$email = implode("+", $emailChunks);

@@ -8,8 +8,12 @@
 	}
 	else;
 	
-	$user = $_POST["username"];
-	$pass = $_POST["pass"];
+	$user = stripslashes($_POST["username"]);
+	$user = $db->real_escape_string($user);
+	
+	
+	$pass = stripslashes($_POST["pass"]);
+	$pass = $db->real_escape_string($pass);
 	
 	$hashed = hash("md5", $pass);
 	

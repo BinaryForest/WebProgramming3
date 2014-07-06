@@ -46,12 +46,30 @@ function checkName() // Checks that user entered login info and, if so, calls PH
 		document.loginInfo.username.value = "";
 		document.loginInfo.pass.value = "";
 		
-		var httpRequest = new XMLHttpRequest();
-		if(httpRequest.overrideMimeType)
+	if (window.XMLHttpRequest) 
+	{ 
+		httpRequest = new XMLHttpRequest();
+		if (httpRequest.overrideMimeType) 
 		{
 			httpRequest.overrideMimeType('text/xml');
 		}
 		else;
+	}
+	else if (window.ActiveXObject) 
+	{ // IE
+		try 
+		{
+			httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		}
+		catch (e) 
+		{
+			try 
+			{
+				httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			catch (e) {}
+		}
+	}
 
 		if(!httpRequest)
 		{

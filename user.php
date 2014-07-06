@@ -70,7 +70,7 @@ function newTicket()
 	input.setAttribute('id', 'lname');
 	
 	ticketForm.appendChild(input);
-	
+	/*
 	text = document.createElement("br");
 	ticketForm.appendChild(text);
 	
@@ -86,7 +86,7 @@ function newTicket()
 	input.setAttribute('id', 'email');
 	
 	ticketForm.appendChild(input);
-	
+	*/
 	text = document.createElement("br");
 	ticketForm.appendChild(text);
 	
@@ -139,7 +139,6 @@ function submitNewTicket()
 {
 	var fname = document.ticketForm.fname.value;
 	var lname = document.ticketForm.lname.value;
-	var email = document.ticketForm.email.value;
 	var subject = document.ticketForm.subject.value;
 	var body = document.ticketForm.body.value;
 	
@@ -153,11 +152,6 @@ function submitNewTicket()
 		alert("Last name not entered");
 		document.ticketForm.lname.focus();
 	}
-	else if(email=="")
-	{
-		alert("Email not entered");
-		document.ticketForm.email.focus();
-	}
 	else if(subject=="")
 	{
 		alert("Problem not entered");
@@ -170,8 +164,72 @@ function submitNewTicket()
 	}
 	else
 	{
-	
+		
+		if (window.XMLHttpRequest) 
+		{ 
+			httpRequest = new XMLHttpRequest();
+			if (httpRequest.overrideMimeType) 
+			{
+				httpRequest.overrideMimeType('text/xml');
+			}
+			else;
+		}
+		else if (window.ActiveXObject) 
+		{
+			try 
+			{
+				httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+			}
+			catch (e) 
+			{
+				try 
+				{
+					httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				catch (e) {}
+			}
+		}
+		
+		if(!httpRequest)
+		{
+			alert("XMLHTTP instance could not be made!");
+			return false;
+		}
+		else;
+		
+		var data = "name=" + fname + " " + lname + "&subject=" + subject + "&body=" + body;
+		httpRequest.open('POST', 'addticket.php', true);
+		httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		httpRequest.onreadystatechange = function() { ticketConfirm(httpRequest);};
+		httpRequest.send(data);
 	}
+}
+
+function ticketConfirm(httpRequest)
+{
+	if(httpRequest.readyState==4)
+	{
+		if(httpRequest.status == 200)
+		{
+			var response = httpRequest.responseText;
+			if(response == "OK")
+			{
+				alert("Your ticket has been added and an email has been sent with your ticket number");
+				document.ticketForm.fname.value = "";
+				document.ticketForm.lname.value = "";
+				document.ticketForm.subject.value = "";
+				document.ticketForm.body.value = "";
+			}
+			else
+			{
+				alert("There was a problem with your ticket submission");
+			}
+		}
+		else
+			alert("There was a problem with the HTTP request");
+	}
+	else;
 }
 
 function viewMyTickets()
@@ -190,7 +248,7 @@ function resetPass()
 
 
 <body>
-	<div id="header">
+	<div id="display">
 	
 	</div>
 	
