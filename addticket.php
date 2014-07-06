@@ -15,7 +15,7 @@
 	$row = $result->fetch_row();
 	$ticketNumber = $row[0]+1;
 		
-	$name = stripslashes($_POST["name"]);
+	$name = stripslashes($_SESSION["user"]); // We know the users name from their login so we can simply enter that for the submitter
 	$name = $db->real_escape_string($name);
 	
 	

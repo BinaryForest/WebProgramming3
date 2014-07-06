@@ -34,14 +34,12 @@ function newTicket()
 	var display = document.getElementById("display");
 	
 	var newForm = "<form name='ticketForm' id='ticketForm'>"
-	+"First Name: <input type = 'text' name = 'fname' size = '15' maxlength = '15' value=''><br/>"
-	+"Last Name: <input type = 'text' name = 'lname' size = '15' maxlength = '15' value=''><br/>"
 	+"Problem: <input type = 'text' name = 'subject' size = '30' maxlength = '30' value=''><br/>"
 	+"Description of Problem:<br/> <textarea rows = '4' cols = '50' id='Body' name='body' value=''></textarea><br/>"
 	+"<input type = 'button' value = 'Submit Ticket' onClick = 'submitNewTicket()'></form>";
 	var toDisplay = "<form name='selection' id = 'selection'><br/>"
 	+"<input type = 'button' value = 'View My Tickets' onclick = 'viewMyTickets()' id = 'myTickets'><br/>"
-	+"<input type = 'button' value = 'Reset Password' onclick = 'resetPass()' id = 'reset'><br/>"
+	+"<input type = 'button' value = 'Change Password' onclick = 'changePass()' id = 'reset'><br/>"
 	+"<input type = 'button' value = 'Logout' onclick = 'logout()'><br/>";
 	
 	display.innerHTML = newForm + "<br/>" + toDisplay;
@@ -49,22 +47,10 @@ function newTicket()
 
 function submitNewTicket()
 {
-	var fname = document.ticketForm.fname.value;
-	var lname = document.ticketForm.lname.value;
 	var subject = document.ticketForm.subject.value;
 	var body = document.ticketForm.body.value;
 	
-	if(fname == "")
-	{
-		alert("First name not entered");
-		document.ticketForm.fname.focus();
-	}
-	else if(lname=="")
-	{
-		alert("Last name not entered");
-		document.ticketForm.lname.focus();
-	}
-	else if(subject=="")
+	if(subject=="")
 	{
 		alert("Problem not entered");
 		document.ticketForm.subject.focus();
@@ -109,7 +95,7 @@ function submitNewTicket()
 		}
 		else;
 		
-		var data = "name=" + fname + " " + lname + "&subject=" + subject + "&body=" + body;
+		var data = "subject=" + subject + "&body=" + body;
 		httpRequest.open('POST', 'addticket.php', true);
 		httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
@@ -193,12 +179,15 @@ function displayMyTickets()
 		{
 			var response = httpRequest.responseText;
 			
+			
 			var display = document.getElementById("display");
 	
 			var toDisplay = "<form name='selection' id = 'selection'><br/>"
 			+"<input type = 'button' value = 'Submit New Ticket' onclick = 'newTicket()' id = 'new'><br/>"
-			+"<input type = 'button' value = 'Reset Password' onclick = 'resetPass()' id = 'reset'><br/>"
-			+"<input type = 'button' value = 'Logout' onclick = 'logout()'><br/>";
+			+"<input type = 'button' value = 'Change Password' onclick = 'changePass()' id = 'reset'><br/>"
+			+"<input type = 'button' value = 'Logout' onclick = 'logout()'><br/></form>";
+			
+			display.innerHTML = response + "<br/>" + toDisplay;
 		}
 		else
 			alert("There was a problem with the HTTP request");
@@ -206,9 +195,104 @@ function displayMyTickets()
 	else;
 }
 
-function resetPass()
+function changePass()
 {
+	var display = document.getElementById("display");
+	
+	var passForm = "<form name='passForm' id='passForm'>"
+		+"Old Password: <input type = 'password' name = 'oldPass' size = '30' maxlength = '30' value=''><br/>"
+		+"New Password: <input type = 'password' name = 'newPass' size = '30' maxlength = '30' value=''><br/>"
+		+"<input type = 'button' value = 'Change Password' onclick = 'checkNewPass()'></form>"
+	
+	var toDisplay = "<form name='selection' id = 'selection'><br/>"
+		+"<input type = 'button' value = 'Submit New Ticket' onclick = 'newTicket()' id = 'new'><br/>"
+		+"<input type = 'button' value = 'View My Tickets' onclick = 'viewMyTickets()' id = 'myTickets'><br/>"
+		+"<input type = 'button' value = 'Logout' onclick = 'logout()'><br/></form>";
+		
+	display.innerHTML = passForm + "<br/>" + toDisplay;
+}
 
+function checkNewPass()
+{
+	var oldPass = document.passForm.oldPass.value;
+	var newPass = document.passForm.newPass.value;
+	
+	if(oldPass=="")
+	{
+		alert("Old password not entered");
+		document.passForm.oldPass.focus();
+	}
+	else if(newPass=="")
+	{
+		alert("New password not entered");
+		document.passForm.newPass.focus();
+	}
+	if (window.XMLHttpRequest) 
+	{ 
+		httpRequest = new XMLHttpRequest();
+		if (httpRequest.overrideMimeType) 
+		{
+			httpRequest.overrideMimeType('text/xml');
+		}
+		else;
+	}
+	else if (window.ActiveXObject) 
+	{
+		try 
+		{
+			httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		}
+		catch (e) 
+		{
+			try 
+			{
+				httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			catch (e) {}
+		}
+	}
+
+	if(!httpRequest)
+	{
+		alert("XMLHTTP instance could not be made!");
+		return false;
+	}
+	else;
+
+	var data = "oldPass=" + oldPass + "&newPass=" + newPass;
+	
+	httpRequest.open('POST', 'changePass.php', true);
+	httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+	httpRequest.onreadystatechange = function() { passwordChanged(httpRequest);};
+	httpRequest.send(data);
+}
+
+function passwordChanged()
+{
+	if(httpRequest.readyState==4)
+	{
+		if(httpRequest.status == 200)
+		{
+			var response = httpRequest.responseText;
+			if(response == "OK")
+			{
+				alert("Your password has been changed");
+			}
+			else if(response == "WRONG")
+			{
+				alert("Your old password was incorrect, please ensure that you entered it correctly");
+			}
+			else
+			{
+				alert("There was an error in changing your password");
+				//alert(response);
+			}
+		}
+		else
+			alert("There was a problem with the HTTP request");
+	}
+	else;
 }
 
 </script>
@@ -221,7 +305,7 @@ function resetPass()
 	<form name="selection" id = "selection">
 	<input type = 'button' value = "Submit New Ticket" onclick = 'newTicket()' id = "new"><br/>
 	<input type = 'button' value = "View My Tickets" onclick = 'viewMyTickets()' id = "myTickets"><br/>
-	<input type = 'button' value = "Reset Password" onclick = 'resetPass()' id = "reset"><br/>
+	<input type = 'button' value = "Change Password" onclick = 'changePass()' id = "reset"><br/>
 	<input type = 'button' value = "Logout" onclick = 'logout()'><br/>
 	</form>
 	</div>
