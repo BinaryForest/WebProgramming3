@@ -38,7 +38,7 @@ function newTicket()
 	+"Last Name: <input type = 'text' name = 'lname' size = '15' maxlength = '15' value=''><br/>"
 	+"Problem: <input type = 'text' name = 'subject' size = '30' maxlength = '30' value=''><br/>"
 	+"Description of Problem:<br/> <textarea rows = '4' cols = '50' id='Body' name='body' value=''></textarea><br/>"
-	+"<input type = 'button' value = 'Submit Ticket' onClick = 'submitNewTicket()'><br/></form>";
+	+"<input type = 'button' value = 'Submit Ticket' onClick = 'submitNewTicket()'></form>";
 	var toDisplay = "<form name='selection' id = 'selection'><br/>"
 	+"<input type = 'button' value = 'View My Tickets' onclick = 'viewMyTickets()' id = 'myTickets'><br/>"
 	+"<input type = 'button' value = 'Reset Password' onclick = 'resetPass()' id = 'reset'><br/>"
@@ -146,7 +146,64 @@ function ticketConfirm(httpRequest)
 
 function viewMyTickets()
 {
+	if (window.XMLHttpRequest) 
+	{ 
+		httpRequest = new XMLHttpRequest();
+		if (httpRequest.overrideMimeType) 
+		{
+			httpRequest.overrideMimeType('text/xml');
+		}
+		else;
+	}
+	else if (window.ActiveXObject) 
+	{
+		try 
+		{
+			httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		}
+		catch (e) 
+		{
+			try 
+			{
+				httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			catch (e) {}
+		}
+	}
+
+	if(!httpRequest)
+	{
+		alert("XMLHTTP instance could not be made!");
+		return false;
+	}
+	else;
+
+	httpRequest.open('POST', 'usersTickets.php', true);
+	httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+	httpRequest.onreadystatechange = function() { displayMyTickets(httpRequest);};
+	httpRequest.send();
+}
+
+function displayMyTickets()
+{
+	if(httpRequest.readyState==4)
+	{
+		if(httpRequest.status == 200)
+		{
+			var response = httpRequest.responseText;
+			
+			var display = document.getElementById("display");
 	
+			var toDisplay = "<form name='selection' id = 'selection'><br/>"
+			+"<input type = 'button' value = 'Submit New Ticket' onclick = 'newTicket()' id = 'new'><br/>"
+			+"<input type = 'button' value = 'Reset Password' onclick = 'resetPass()' id = 'reset'><br/>"
+			+"<input type = 'button' value = 'Logout' onclick = 'logout()'><br/>";
+		}
+		else
+			alert("There was a problem with the HTTP request");
+	}
+	else;
 }
 
 function resetPass()
