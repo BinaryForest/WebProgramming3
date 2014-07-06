@@ -113,6 +113,7 @@ function registerForms()
 	child = document.getElementById("regButton1");
 	paragraph.removeChild(child);
 	
+	/*
 	var email = document.createElement("input");
 	email.setAttribute('type', 'text');
 	email.setAttribute('name', 'email');
@@ -134,6 +135,13 @@ function registerForms()
 	
 	paragraph = document.getElementById("regP");
 	paragraph.appendChild(regButton);
+	*/
+	
+	var newInput = "Email: <input type = 'text' name = 'email' size = '20' maxlength = '40' value= ''><br/>";
+	newInput += "<input type = 'button' value = 'Register' onClick = 'register()'>";
+	paragraph.innerHTML = newInput;
+	
+	
 }
 
 function register() // Use username and password info to attempt to register a new user
