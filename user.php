@@ -135,6 +135,45 @@ function newTicket()
 	
 }
 
+function submitNewTicket()
+{
+	var fname = document.ticketForm.fname.value;
+	var lname = document.ticketForm.lname.value;
+	var email = document.ticketForm.email.value;
+	var subject = document.ticketForm.subject.value;
+	var body = document.ticketForm.body.value;
+	
+	if(fname == "")
+	{
+		alert("First name not entered");
+		document.ticketForm.fname.focus();
+	}
+	else if(lname=="")
+	{
+		alert("Last name not entered");
+		document.ticketForm.lname.focus();
+	}
+	else if(email=="")
+	{
+		alert("Email not entered");
+		document.ticketForm.email.focus();
+	}
+	else if(subject=="")
+	{
+		alert("Problem not entered");
+		document.ticketForm.subject.focus();
+	}
+	else if(body=="")
+	{
+		alert("Problem Description not entered");
+		document.ticketForm.body.focus();
+	}
+	else
+	{
+	
+	}
+}
+
 function viewMyTickets()
 {
 	myTicketSelected = true;
