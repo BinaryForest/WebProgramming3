@@ -23,8 +23,6 @@
 	<title>User Tech Support</title>
 
 <script type="text/javascript">
-var newTicketSelected = false;
-var myTicketSelected = false;
 
 function logout()
 {
@@ -33,106 +31,20 @@ function logout()
 
 function newTicket()
 {
-	newTicketSelected = true;
+	var display = document.getElementById("display");
 	
-	var selection = document.getElementById("selection");
-	var newTicket = document.getElementById("new");
-	selection.removeChild(newTicket);
-
-	var header = document.getElementById("header");
+	var newForm = "<form name='ticketForm' id='ticketForm'>"
+	+"First Name: <input type = 'text' name = 'fname' size = '15' maxlength = '15' value=''><br/>"
+	+"Last Name: <input type = 'text' name = 'lname' size = '15' maxlength = '15' value=''><br/>"
+	+"Problem: <input type = 'text' name = 'subject' size = '30' maxlength = '30' value=''><br/>"
+	+"Description of Problem:<br/> <textarea rows = '4' cols = '50' id='Body' name='body' value=''></textarea><br/>"
+	+"<input type = 'button' value = 'Submit Ticket' onClick = 'submitNewTicket()'><br/></form>";
+	var toDisplay = "<form name='selection' id = 'selection'><br/>"
+	+"<input type = 'button' value = 'View My Tickets' onclick = 'viewMyTickets()' id = 'myTickets'><br/>"
+	+"<input type = 'button' value = 'Reset Password' onclick = 'resetPass()' id = 'reset'><br/>"
+	+"<input type = 'button' value = 'Logout' onclick = 'logout()'><br/>";
 	
-	var ticketForm = document.createElement("form");
-	ticketForm.setAttribute('name', 'ticketForm');
-	
-	var text = document.createTextNode("First Name: ");
-	ticketForm.appendChild(text);
-	
-	var input = document.createElement("input");
-	input.setAttribute('type', 'text');
-	input.setAttribute('name', 'fname');
-	input.setAttribute('value', '');
-	input.setAttribute('size', '20');
-	input.setAttribute('id', 'fname');
-	
-	ticketForm.appendChild(input);
-	
-	text = document.createElement("br");
-	ticketForm.appendChild(text);
-	
-	text = document.createTextNode("Last Name: ");
-	ticketForm.appendChild(text);
-	
-	input = document.createElement("input");
-	input.setAttribute('type', 'text');
-	input.setAttribute('name', 'lname');
-	input.setAttribute('value', '');
-	input.setAttribute('size', '20');
-	input.setAttribute('id', 'lname');
-	
-	ticketForm.appendChild(input);
-	/*
-	text = document.createElement("br");
-	ticketForm.appendChild(text);
-	
-	text = document.createTextNode("Email: ");
-	ticketForm.appendChild(text);
-	
-	input = document.createElement("input");
-	input.setAttribute('type', 'text');
-	input.setAttribute('name', 'email');
-	input.setAttribute('value', '');
-	input.setAttribute('size', '30');
-	input.setAttribute('maxlength', '40');
-	input.setAttribute('id', 'email');
-	
-	ticketForm.appendChild(input);
-	*/
-	text = document.createElement("br");
-	ticketForm.appendChild(text);
-	
-	text = document.createTextNode("Problem: ");
-	ticketForm.appendChild(text);
-	
-	input = document.createElement("input");
-	input.setAttribute('type', 'text');
-	input.setAttribute('name', 'subject');
-	input.setAttribute('value', '');
-	input.setAttribute('size', '30');
-	input.setAttribute('id', 'subject');
-	
-	ticketForm.appendChild(input);
-	
-	text = document.createElement("br");
-	ticketForm.appendChild(text);
-	
-	text = document.createTextNode("Problem Description: ");
-	ticketForm.appendChild(text);
-	text = document.createElement("br");
-	ticketForm.appendChild(text);
-	
-	input = document.createElement("textarea");
-	input.setAttribute('rows', '4');
-	input.setAttribute('cols', '50');
-	input.setAttribute('value', '');
-	input.setAttribute('name', 'body');
-	input.setAttribute('id', 'body');
-	
-	ticketForm.appendChild(input);
-	
-	text = document.createElement("br");
-	ticketForm.appendChild(text);
-	
-	input = document.createElement("input");
-	input.setAttribute('type', 'button');
-	input.setAttribute('value', 'Submit Ticket');
-	input.setAttribute('onclick', 'submitNewTicket()');
-	input.setAttribute('id', 'submitTicket');
-	
-	ticketForm.appendChild(input);
-	
-	header.appendChild(ticketForm);
-	
-	
+	display.innerHTML = newForm + "<br/>" + toDisplay;
 }
 
 function submitNewTicket()
@@ -234,7 +146,7 @@ function ticketConfirm(httpRequest)
 
 function viewMyTickets()
 {
-	myTicketSelected = true;
+	
 }
 
 function resetPass()
@@ -249,15 +161,12 @@ function resetPass()
 
 <body>
 	<div id="display">
-	
-	</div>
-	
-	
 	<form name="selection" id = "selection">
 	<input type = 'button' value = "Submit New Ticket" onclick = 'newTicket()' id = "new"><br/>
 	<input type = 'button' value = "View My Tickets" onclick = 'viewMyTickets()' id = "myTickets"><br/>
 	<input type = 'button' value = "Reset Password" onclick = 'resetPass()' id = "reset"><br/>
 	<input type = 'button' value = "Logout" onclick = 'logout()'><br/>
 	</form>
+	</div>
 </body>
 </html>
