@@ -58,8 +58,8 @@
 			{
 				echo "<td>$value</td>";
 			}
-			$radio = $row[0] . "Radio";
-			echo "<td><input type = 'radio' name = 'selection' id='$radio' ></td>";
+			$radio = $row[0];
+			echo "<td><input type = 'radio' name = 'selection' onclick = 'setSelected($radio)'></td>";
 			echo "</tr>";
 		}
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'ticket' id = 'ticketRadio'> </td>";
@@ -87,8 +87,8 @@
 			{
 				echo "<td>$value</td>";
 			}
-			$radio = $row[0] . "Radio";
-			echo "<td><input type = 'radio' name = 'selection' id='$radio' ></td>";
+			$radio = $row[0];
+			echo "<td><input type = 'radio' name = 'selection' onclick = 'setSelected($radio)'></td>";
 			echo "</tr>";
 		}
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'ticket' id = 'ticketRadio'> </td>";
@@ -116,8 +116,8 @@
 			{
 				echo "<td>$value</td>";
 			}
-			$radio = $row[0] . "Radio";
-			echo "<td><input type = 'radio' name = 'selection' id='$radio' ></td>";
+			$radio = $row[0];
+			echo "<td><input type = 'radio' name = 'selection' onclick = 'setSelected($radio)'></td>";
 			echo "</tr>";
 		}
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'ticket' id = 'ticketRadio'> </td>";
