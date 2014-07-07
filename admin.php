@@ -151,7 +151,7 @@ function selectTicket()
 {
 	//alert("Display ticket " + ticket);
 	var display = document.getElementById("choiceButtons");
-	var toDisplay = "<input type='button' value='Close/Open' onclick='closeOrOpen()'><input type='button' value='Assign/Unassign Self' onclick='assignSelf()'><input type='button' value='Email Submitter' onclick='emailSubmitter()'><input type='button' value='Delete Ticket' onclick='delete()'><br/>"
+	var toDisplay = "<input type='button' value='Close/Open' onclick='closeOrOpen()'><input type='button' value='Assign/Unassign Self' onclick='assignSelf()'><input type='button' value='Email Submitter' onclick='emailSubmitter()'><input type='button' value='Delete Ticket' onclick='deleteTicket()'><br/>"
 	+"<input type='button' value='Find All Tickets From Submitter' onclick='submitterTickets()'><input type='button' value='Find All Similar Tickets' onclick='similar()'><input type='button' value='Go Back To Main Ticket Display' onclick='openTickets()'>";
 	display.innerHTML = toDisplay;
 	
@@ -195,6 +195,319 @@ function selectTicket()
 		httpRequest.send(data);
 }
 
+function deleteTicket()
+{
+	if (window.XMLHttpRequest) 
+		{ 
+			httpRequest = new XMLHttpRequest();
+			if (httpRequest.overrideMimeType) 
+			{
+				httpRequest.overrideMimeType('text/xml');
+			}
+			else;
+		}
+		else if (window.ActiveXObject) 
+		{
+			try 
+			{
+				httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+			}
+			catch (e) 
+			{
+				try 
+				{
+					httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				catch (e) {}
+			}
+		}
+		
+		if(!httpRequest)
+		{
+			alert("XMLHTTP instance could not be made!");
+			return false;
+		}
+		else;
+		
+		var data = "ticket=" + selectedTicket + "&command=delete";
+		httpRequest.open('POST', 'selectTicket.php', true);
+		httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		httpRequest.onreadystatechange = function() { confirmDelete(httpRequest);};
+		httpRequest.send(data);
+}
+
+function confirmDelete(httpRequest)
+{
+	if(httpRequest.readyState==4)
+	{
+		if(httpRequest.status == 200)
+		{
+			var response = httpRequest.responseText;
+			
+			if(response == "OK")
+			{
+				alert("Ticket has been deleted");
+				openTickets();
+			}
+			else
+				alert(response);
+		}
+		else
+			alert("There was a problem with the HTTP request");
+	}
+	else;
+}
+
+function assignSelf()
+{
+	if (window.XMLHttpRequest) 
+		{ 
+			httpRequest = new XMLHttpRequest();
+			if (httpRequest.overrideMimeType) 
+			{
+				httpRequest.overrideMimeType('text/xml');
+			}
+			else;
+		}
+		else if (window.ActiveXObject) 
+		{
+			try 
+			{
+				httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+			}
+			catch (e) 
+			{
+				try 
+				{
+					httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				catch (e) {}
+			}
+		}
+		
+		if(!httpRequest)
+		{
+			alert("XMLHTTP instance could not be made!");
+			return false;
+		}
+		else;
+		
+		var data = "ticket=" + selectedTicket + "&command=assign";
+		httpRequest.open('POST', 'selectTicket.php', true);
+		httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		httpRequest.onreadystatechange = function() { checkAssign(httpRequest);};
+		httpRequest.send(data);
+}
+
+function checkAssign(httpRequest)
+{
+	
+	if(httpRequest.readyState==4)
+	{
+		if(httpRequest.status == 200)
+		{
+			var response = httpRequest.responseText;
+			
+			if(response=="NO")
+				alert("Cannot assign/unassign, ticket is assigned to another admin");
+			else
+				displayTable(httpRequest);
+		}
+		else
+			alert("There was a problem with the HTTP request");
+	}
+	else;
+}
+
+function emailSubmitter()
+{
+	var tickets = document.getElementById("ticketTable");
+	var emailForm = "<form name='emailForm' id='emailForm'>"
+	+"Subject: <input type = 'text' name = 'subject' size = '30' maxlength = '30' value=''><br/>"
+	+"Message:<br/> <textarea rows = '4' cols = '50' id='Body' name='body' value=''></textarea><br/>";
+	
+	tickets.innerHTML = emailForm;
+	
+	var buttons = document.getElementById("choiceButtons");
+	var buttonDisplay = "<input type = 'button' value = 'Send' onClick = 'sendEmail()'><br/>"
+	+"<input type = 'button' value = 'Go Back To Ticket' onClick = 'selectTicket()'></form>";
+	
+	buttons.innerHTML = buttonDisplay;
+}
+
+function sendEmail()
+{
+	var subject = document.emailForm.subject.value;
+	var body = document.emailForm.body.value;
+	
+	if(subject=="")
+	{
+		alert("Problem not entered");
+		document.emailForm.subject.focus();
+	}
+	else if(body=="")
+	{
+		alert("Problem Description not entered");
+		document.emailForm.body.focus();
+	}
+	else
+	{
+		
+		if (window.XMLHttpRequest) 
+		{ 
+			httpRequest = new XMLHttpRequest();
+			if (httpRequest.overrideMimeType) 
+			{
+				httpRequest.overrideMimeType('text/xml');
+			}
+			else;
+		}
+		else if (window.ActiveXObject) 
+		{
+			try 
+			{
+				httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+			}
+			catch (e) 
+			{
+				try 
+				{
+					httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				catch (e) {}
+			}
+		}
+		
+		if(!httpRequest)
+		{
+			alert("XMLHTTP instance could not be made!");
+			return false;
+		}
+		else;
+		
+		var data = "ticket=" + selectedTicket + "&subject=" + subject + "&body=" + body;
+		httpRequest.open('POST', 'emailUser.php', true);
+		httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		httpRequest.onreadystatechange = function() { emailResponse(httpRequest);};
+		httpRequest.send(data);
+	}
+}
+
+function emailResponse(httpRequest)
+{
+	if(httpRequest.readyState==4)
+	{
+		if(httpRequest.status == 200)
+		{
+			var response = httpRequest.responseText;
+			
+			if(response=="OK")
+				alert("Your email has been sent to the submitter!");
+			else
+				alert(response);
+		}
+		else
+			alert("There was a problem with the HTTP request");
+	}
+	else;
+}
+
+function submitterTickets()
+{
+	var display = document.getElementById("choiceButtons");
+	var toDisplay = "<input type='button' value='Close/Open' onclick='closeOrOpen()'><input type='button' value='Assign/Unassign Self' onclick='assignSelf()'><input type='button' value='Email Submitter' onclick='emailSubmitter()'><input type='button' value='Delete Ticket' onclick='deleteTicket()'><br/>"
+	+"<input type='button' value='Find All Tickets From Submitter' onclick='submitterTickets()'><input type='button' value='Find All Similar Tickets' onclick='similar()'><input type='button' value='Go Back To Main Ticket Display' onclick='openTickets()'>";
+	display.innerHTML = toDisplay;
+	
+	if (window.XMLHttpRequest) 
+		{ 
+			httpRequest = new XMLHttpRequest();
+			if (httpRequest.overrideMimeType) 
+			{
+				httpRequest.overrideMimeType('text/xml');
+			}
+			else;
+		}
+		else if (window.ActiveXObject) 
+		{
+			try 
+			{
+				httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+			}
+			catch (e) 
+			{
+				try 
+				{
+					httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				catch (e) {}
+			}
+		}
+		
+		if(!httpRequest)
+		{
+			alert("XMLHTTP instance could not be made!");
+			return false;
+		}
+		else;
+		
+		var data = "ticket=" + selectedTicket + "&command=submitter";
+		httpRequest.open('POST', 'selectTicket.php', true);
+		httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		httpRequest.onreadystatechange = function() { displayTable(httpRequest);};
+		httpRequest.send(data);
+}
+
+function similar()
+{
+	var display = document.getElementById("choiceButtons");
+	var toDisplay = "<input type='button' value='Close/Open' onclick='closeOrOpen()'><input type='button' value='Assign/Unassign Self' onclick='assignSelf()'><input type='button' value='Email Submitter' onclick='emailSubmitter()'><input type='button' value='Delete Ticket' onclick='deleteTicket()'><br/>"
+	+"<input type='button' value='Find All Tickets From Submitter' onclick='submitterTickets()'><input type='button' value='Find All Similar Tickets' onclick='similar()'><input type='button' value='Go Back To Main Ticket Display' onclick='openTickets()'>";
+	display.innerHTML = toDisplay;
+	
+	if (window.XMLHttpRequest) 
+		{ 
+			httpRequest = new XMLHttpRequest();
+			if (httpRequest.overrideMimeType) 
+			{
+				httpRequest.overrideMimeType('text/xml');
+			}
+			else;
+		}
+		else if (window.ActiveXObject) 
+		{
+			try 
+			{
+				httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+			}
+			catch (e) 
+			{
+				try 
+				{
+					httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				catch (e) {}
+			}
+		}
+		
+		if(!httpRequest)
+		{
+			alert("XMLHTTP instance could not be made!");
+			return false;
+		}
+		else;
+		
+		var data = "ticket=" + selectedTicket + "&command=similar";
+		httpRequest.open('POST', 'selectTicket.php', true);
+		httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		httpRequest.onreadystatechange = function() { displayTable(httpRequest);};
+		httpRequest.send(data);
+}
 function closeOrOpen()
 {
 	if (window.XMLHttpRequest) 
