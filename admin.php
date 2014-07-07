@@ -27,6 +27,8 @@
 <head>
 	<title>Tech Support Administration</title>
 <script type="text/javascript">
+var selectedTicket;
+
 function logout()
 {
 	window.location.href = "reset.php";
@@ -139,8 +141,15 @@ function unassignedTickets()
 	setTable("unassigned");
 }
 
+function setSelected(newTicket)
+{
+	selectedTicket = newTicket;
+	//alert(newTicket + " was selected");
+}
+
 function selectTicket()
 {
+	/*
 	var table = document.getElementById("table");
 	var rows = table.rows.length;
 	var i = 0;
@@ -156,12 +165,105 @@ function selectTicket()
 		{
 			if(radioButton.checked) // Found the selected ticket
 			{
-				alert("You selected ticket " + x);
+				//alert("You selected ticket " + x);
+				displayTicket(x);
 			}
 			else;
 		}
 		else;
 	}
+	*/
+	displayTicket(selectedTicket);
+}
+
+function displayTicket(ticket)
+{
+	//alert("Display ticket " + ticket);
+	var display = document.getElementById("choiceButtons");
+	var toDisplay = "<input type='button' value='Close/Open' onclick='closeOrOpen("+ticket+")'><input type='button' value='Email Submitter' onclick='emailSubmitter("+ticket+")'><input type='button' value='Delete Ticket' onclick='delete("+ticket+")'><br/>"
+	+"<input type='button' value='Find All Tickets From Submitter' onclick='submitterTickets("+ticket+")'><input type='button' value='Find All Similar Tickets' onclick='similar("+ticket+")'><input type='button' value='Go Back To Main Ticket Display' onclick='openTickets()'>";
+	display.innerHTML = toDisplay;
+	
+	if (window.XMLHttpRequest) 
+		{ 
+			httpRequest = new XMLHttpRequest();
+			if (httpRequest.overrideMimeType) 
+			{
+				httpRequest.overrideMimeType('text/xml');
+			}
+			else;
+		}
+		else if (window.ActiveXObject) 
+		{
+			try 
+			{
+				httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+			}
+			catch (e) 
+			{
+				try 
+				{
+					httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				catch (e) {}
+			}
+		}
+		
+		if(!httpRequest)
+		{
+			alert("XMLHTTP instance could not be made!");
+			return false;
+		}
+		else;
+		
+		var data = "ticket=" + ticket + "&command=select";
+		httpRequest.open('POST', 'selectTicket.php', true);
+		httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		httpRequest.onreadystatechange = function() { displayTable(httpRequest);};
+		httpRequest.send(data);
+}
+
+function closeOrOpen(ticket)
+{
+	if (window.XMLHttpRequest) 
+		{ 
+			httpRequest = new XMLHttpRequest();
+			if (httpRequest.overrideMimeType) 
+			{
+				httpRequest.overrideMimeType('text/xml');
+			}
+			else;
+		}
+		else if (window.ActiveXObject) 
+		{
+			try 
+			{
+				httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+			}
+			catch (e) 
+			{
+				try 
+				{
+					httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				catch (e) {}
+			}
+		}
+		
+		if(!httpRequest)
+		{
+			alert("XMLHTTP instance could not be made!");
+			return false;
+		}
+		else;
+		
+		var data = "ticket=" + ticket + "&command=closeOrOpen";
+		httpRequest.open('POST', 'selectTicket.php', true);
+		httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		httpRequest.onreadystatechange = function() { displayTable(httpRequest);};
+		httpRequest.send(data);
 }
 
 function sortBy()

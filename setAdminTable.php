@@ -19,7 +19,7 @@
 		$rows = $result->num_rows;
 		
 		echo "<table name='table' id='table' border = '1'><caption><h2>Open Tickets</h2></caption>";
-		echo "<tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th></tr>";
+		echo "<tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr>";
 		
 		for($i = 0; $i < $rows; $i++)
 		{
@@ -29,8 +29,8 @@
 			{
 				echo "<td>$value</td>";
 			}
-			$radio = $row[0] . "Radio";
-			echo "<td><input type = 'radio' name = 'selection' id='$radio' ></td>";
+			$radio = $row[0];
+			echo "<td><input type = 'radio' name = 'selection' onclick = 'setSelected($radio)'></td>";
 			echo "</tr>";
 		}
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'ticket' id = 'ticketRadio'> </td>";
@@ -77,7 +77,7 @@
 		$rows = $result->num_rows;
 		
 		echo "<table name='table' id='table' border = '1'><caption><h2>Your Tickets</h2></caption>";
-		echo "<tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th></tr>";
+		echo "<tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr>";
 		
 		for($i = 0; $i < $rows; $i++)
 		{
@@ -106,7 +106,7 @@
 		$rows = $result->num_rows;
 		
 		echo "<table name='table' id='table' border = '1'><caption><h2>Unassigned Tickets</h2></caption>";
-		echo "<tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th></tr>";
+		echo "<tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr>";
 		
 		for($i = 0; $i < $rows; $i++)
 		{
