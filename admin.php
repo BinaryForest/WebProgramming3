@@ -149,39 +149,10 @@ function setSelected(newTicket)
 
 function selectTicket()
 {
-	/*
-	var table = document.getElementById("table");
-	var rows = table.rows.length;
-	var i = 0;
-	var x;
-	var radio;
-	var radioButton;
-	for(i = 1; i < rows; i++)
-	{
-		x = table.rows[i].cells[0].firstChild.nodeValue; // Look at the Ticket # nodes in the table to see which was checked
-		radio = x + "Radio";
-		radioButton = document.getElementById(radio)
-		if(radioButton != null)
-		{
-			if(radioButton.checked) // Found the selected ticket
-			{
-				//alert("You selected ticket " + x);
-				displayTicket(x);
-			}
-			else;
-		}
-		else;
-	}
-	*/
-	displayTicket(selectedTicket);
-}
-
-function displayTicket(ticket)
-{
 	//alert("Display ticket " + ticket);
 	var display = document.getElementById("choiceButtons");
-	var toDisplay = "<input type='button' value='Close/Open' onclick='closeOrOpen("+ticket+")'><input type='button' value='Email Submitter' onclick='emailSubmitter("+ticket+")'><input type='button' value='Delete Ticket' onclick='delete("+ticket+")'><br/>"
-	+"<input type='button' value='Find All Tickets From Submitter' onclick='submitterTickets("+ticket+")'><input type='button' value='Find All Similar Tickets' onclick='similar("+ticket+")'><input type='button' value='Go Back To Main Ticket Display' onclick='openTickets()'>";
+	var toDisplay = "<input type='button' value='Close/Open' onclick='closeOrOpen()'><input type='button' value='Email Submitter' onclick='emailSubmitter()'><input type='button' value='Delete Ticket' onclick='delete()'><br/>"
+	+"<input type='button' value='Find All Tickets From Submitter' onclick='submitterTickets()'><input type='button' value='Find All Similar Tickets' onclick='similar()'><input type='button' value='Go Back To Main Ticket Display' onclick='openTickets()'>";
 	display.innerHTML = toDisplay;
 	
 	if (window.XMLHttpRequest) 
@@ -216,7 +187,7 @@ function displayTicket(ticket)
 		}
 		else;
 		
-		var data = "ticket=" + ticket + "&command=select";
+		var data = "ticket=" + selectedTicket + "&command=select";
 		httpRequest.open('POST', 'selectTicket.php', true);
 		httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
@@ -224,7 +195,7 @@ function displayTicket(ticket)
 		httpRequest.send(data);
 }
 
-function closeOrOpen(ticket)
+function closeOrOpen()
 {
 	if (window.XMLHttpRequest) 
 		{ 
@@ -258,7 +229,7 @@ function closeOrOpen(ticket)
 		}
 		else;
 		
-		var data = "ticket=" + ticket + "&command=closeOrOpen";
+		var data = "ticket=" + selectedTicket + "&command=closeOrOpen";
 		httpRequest.open('POST', 'selectTicket.php', true);
 		httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
