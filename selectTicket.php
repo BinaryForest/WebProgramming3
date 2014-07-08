@@ -150,7 +150,7 @@
 	else if($command == "similar")
 	{
 		echo "<table name='table' id='table' border = '1'><caption><h2>Similar Tickets</h2></caption>";
-		echo "<th>Ticket #</th> <th>Receieved</th> <th>Sender Name</th> <th>Sender Email</th> <th>Subject</th> <th>Body</th> <th>Tech</th> <th>Status</th><th>Select</th>";
+		echo "<thead><tr><th>Ticket #</th> <th>Receieved</th> <th>Sender Name</th> <th>Sender Email</th> <th>Subject</th> <th>Body</th> <th>Tech</th> <th>Status</th><th>Select</th></tr></thead>";
 		$query = "SELECT tickets.Subject FROM tickets WHERE tickets.Ticket = '$ticket'";
 		$result = $db->query($query);
 		$row = $result->fetch_row();
@@ -161,6 +161,7 @@
 		$query = "SELECT tickets.Ticket, tickets.Subject FROM tickets ORDER BY tickets.Ticket";
 		$similarResult = $db->query($query);
 		$similarRows = $similarResult->num_rows;
+		echo "<tbody>";
 		for($i = 0; $i < $similarRows; $i++)
 		{
 			$match = false;
@@ -199,6 +200,15 @@
 			}
 			else;
 		}
+		echo "</tbody>";
+		echo "<tr>";
+		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'ticket' id = 'ticketRadio'> </td>";
+		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'received' id = 'receivedRadio'> </td>";
+		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'sender' id = 'senderRadio'> </td>";
+		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'email' id = 'emailRadio'> </td>";
+		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'subject' id = 'subjectRadio'> </td>";
+		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'body' id = 'bodyRadio'> </td>";
+		echo "</tr>";
 		echo "</table>";
 	}
 	else if($command == "submitter")
@@ -211,14 +221,14 @@
 		$result = $db->query($query);
 
 		echo "<table name='table' id='table' border = '1'><caption><h2>Tickets From $sender</h2></caption>";
-		echo "<th>Ticket #</th> <th>Receieved</th> <th>Sender Name</th> <th>Sender Email</th> <th>Subject</th> <th>Body</th> <th>Tech</th> <th>Status</th><th>Select</th>";
-		echo "</tr>"; 
+		echo "<thead><tr><th>Ticket #</th> <th>Receieved</th> <th>Sender Name</th> <th>Sender Email</th> <th>Subject</th> <th>Body</th> <th>Tech</th> <th>Status</th><th>Select</th></tr></thead>";
 		if($result->num_rows == 0)
 		{
 		
 		}
 		else
 		{
+			echo "<tbody>";
 			$rows = $result->num_rows;
 			for($i = 0; $i < $rows; $i++)
 			{
@@ -232,6 +242,15 @@
 				echo "<td><input type = 'radio' name = 'selection' onclick = 'setSelected($radio)'></td>";
 				echo "</tr>";
 			}
+			echo "</tbody>";
+			echo "<tr>";
+			echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'ticket' id = 'ticketRadio'> </td>";
+			echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'received' id = 'receivedRadio'> </td>";
+			echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'sender' id = 'senderRadio'> </td>";
+			echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'email' id = 'emailRadio'> </td>";
+			echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'subject' id = 'subjectRadio'> </td>";
+			echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'body' id = 'bodyRadio'> </td>";
+			echo "</tr>";
 			echo "</table>";
 		}
 	}

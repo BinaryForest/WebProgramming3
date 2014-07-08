@@ -418,7 +418,7 @@ function emailResponse(httpRequest)
 function submitterTickets()
 {
 	var display = document.getElementById("choiceButtons");
-	var toDisplay = "<input type='button' value='Close/Open' onclick='closeOrOpen()'><input type='button' value='Assign/Unassign Self' onclick='assignSelf()'><input type='button' value='Email Submitter' onclick='emailSubmitter()'><input type='button' value='Delete Ticket' onclick='deleteTicket()'><br/>"
+	var toDisplay = "<input type='button' value='Close/Open' onclick='closeOrOpen()'><input type='button' value='Assign/Unassign Self' onclick='assignSelf()'><input type='button' value='Email Submitter' onclick='emailSubmitter()'><input type='button' value='Delete Ticket' onclick='deleteTicket()'><input type='button' value='Sort' onclick='sortBy()'><br/>"
 	+"<input type='button' value='Find All Tickets From Submitter' onclick='submitterTickets()'><input type='button' value='Find All Similar Tickets' onclick='similar()'><input type='button' value='Go Back To Main Ticket Display' onclick='openTickets()'>";
 	display.innerHTML = toDisplay;
 	
@@ -465,7 +465,7 @@ function submitterTickets()
 function similar()
 {
 	var display = document.getElementById("choiceButtons");
-	var toDisplay = "<input type='button' value='Close/Open' onclick='closeOrOpen()'><input type='button' value='Assign/Unassign Self' onclick='assignSelf()'><input type='button' value='Email Submitter' onclick='emailSubmitter()'><input type='button' value='Delete Ticket' onclick='deleteTicket()'><br/>"
+	var toDisplay = "<input type='button' value='Close/Open' onclick='closeOrOpen()'><input type='button' value='Assign/Unassign Self' onclick='assignSelf()'><input type='button' value='Email Submitter' onclick='emailSubmitter()'><input type='button' value='Delete Ticket' onclick='deleteTicket()'><input type='button' value='Sort' onclick='sortBy()'><br/>"
 	+"<input type='button' value='Find All Tickets From Submitter' onclick='submitterTickets()'><input type='button' value='Find All Similar Tickets' onclick='similar()'><input type='button' value='Go Back To Main Ticket Display' onclick='openTickets()'>";
 	display.innerHTML = toDisplay;
 	
@@ -676,6 +676,10 @@ function sortBy()
 	{
 		//alert("Sort by subject");
 		sortTable(4);
+	}
+	else if(document.getElementById("bodyRadio").checked)
+	{
+		sortTable(5);
 	}
 	else
 		alert("No sorting option selected");
