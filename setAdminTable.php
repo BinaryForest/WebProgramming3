@@ -21,6 +21,7 @@
 		echo "<table name='table' id='table' border = '1'><caption><h2>Open Tickets</h2></caption>";
 		echo "<tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr>";
 		
+		echo "<tbody>";
 		for($i = 0; $i < $rows; $i++)
 		{
 			echo "<tr align = center>";
@@ -33,6 +34,7 @@
 			echo "<td><input type = 'radio' name = 'selection' onclick = 'setSelected($radio)'></td>";
 			echo "</tr>";
 		}
+		echo "</tbody>";
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'ticket' id = 'ticketRadio'> </td>";
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'received' id = 'receivedRadio'> </td>";
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'sender' id = 'senderRadio'> </td>";
@@ -50,6 +52,7 @@
 		echo "<table name='table' id='table' border = '1'><caption><h2>All Tickets</h2></caption>";
 		echo "<tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr>";
 		
+		echo "<tbody>";
 		for($i = 0; $i < $rows; $i++)
 		{
 			echo "<tr align = center>";
@@ -62,6 +65,7 @@
 			echo "<td><input type = 'radio' name = 'selection' onclick = 'setSelected($radio)'></td>";
 			echo "</tr>";
 		}
+		echo "</tbody>";
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'ticket' id = 'ticketRadio'> </td>";
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'received' id = 'receivedRadio'> </td>";
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'sender' id = 'senderRadio'> </td>";
@@ -79,6 +83,7 @@
 		echo "<table name='table' id='table' border = '1'><caption><h2>Your Tickets</h2></caption>";
 		echo "<tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr>";
 		
+		echo "<tbody>";
 		for($i = 0; $i < $rows; $i++)
 		{
 			echo "<tr align = center>";
@@ -91,6 +96,7 @@
 			echo "<td><input type = 'radio' name = 'selection' onclick = 'setSelected($radio)'></td>";
 			echo "</tr>";
 		}
+		echo "</tbody>";
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'ticket' id = 'ticketRadio'> </td>";
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'received' id = 'receivedRadio'> </td>";
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'sender' id = 'senderRadio'> </td>";
@@ -108,6 +114,7 @@
 		echo "<table name='table' id='table' border = '1'><caption><h2>Unassigned Tickets</h2></caption>";
 		echo "<tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr>";
 		
+		echo "<tbody>";
 		for($i = 0; $i < $rows; $i++)
 		{
 			echo "<tr align = center>";
@@ -120,6 +127,7 @@
 			echo "<td><input type = 'radio' name = 'selection' onclick = 'setSelected($radio)'></td>";
 			echo "</tr>";
 		}
+		echo "</tbody>";
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'ticket' id = 'ticketRadio'> </td>";
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'received' id = 'receivedRadio'> </td>";
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'sender' id = 'senderRadio'> </td>";

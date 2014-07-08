@@ -101,7 +101,7 @@ function openTickets()
 {
 	var display = document.getElementById("choiceButtons");
 	var toDisplay = "<input type='button' value='View All Tickets' onclick='allTickets()'><input type='button' value='Sort' onclick='sortBy()'><input type='button' value='View Selected Ticket' onclick='selectTicket()'><br/>"
-	+"<input type='button' value='View My Tickets' onclick='myTickets()'><input type='button' value='Logout' onclick='logout()'><input type='button' value='View Unassigned Tickets' onclick='unassignedTickets()'>";
+	+"<input type='button' value='View My Tickets' onclick='myTickets()'><input type='button' value='Logout' onclick='logout()'><input type='button' value='View Unassigned Tickets' onclick='unassignedTickets()'><input type = 'button' value = 'Change Password' onclick = 'changePass()'>";
 	
 	display.innerHTML = toDisplay
 	
@@ -112,7 +112,7 @@ function allTickets()
 {
 	var display = document.getElementById("choiceButtons");
 	var toDisplay = "<input type='button' value='View Open Tickets' onclick='openTickets()'><input type='button' value='Sort' onclick='sortBy()'><input type='button' value='View Selected Ticket' onclick='selectTicket()'><br/>"
-	+"<input type='button' value='View My Tickets' onclick='myTickets()'><input type='button' value='Logout' onclick='logout()'><input type='button' value='View Unassigned Tickets' onclick='unassignedTickets()'>";
+	+"<input type='button' value='View My Tickets' onclick='myTickets()'><input type='button' value='Logout' onclick='logout()'><input type='button' value='View Unassigned Tickets' onclick='unassignedTickets()'><input type = 'button' value = 'Change Password' onclick = 'changePass()'>";
 	
 	display.innerHTML = toDisplay
 	
@@ -123,7 +123,7 @@ function myTickets()
 {
 	var display = document.getElementById("choiceButtons");
 	var toDisplay = "<input type='button' value='View All Tickets' onclick='allTickets()'><input type='button' value='Sort' onclick='sortBy()'><input type='button' value='View Selected Ticket' onclick='selectTicket()'><br/>"
-	+"<input type='button' value='View Open Tickets' onclick='openTickets()'><input type='button' value='Logout' onclick='logout()'><input type='button' value='View Unassigned Tickets' onclick='unassignedTickets()'>";
+	+"<input type='button' value='View Open Tickets' onclick='openTickets()'><input type='button' value='Logout' onclick='logout()'><input type='button' value='View Unassigned Tickets' onclick='unassignedTickets()'><input type = 'button' value = 'Change Password' onclick = 'changePass()'>";
 	
 	display.innerHTML = toDisplay
 	
@@ -134,7 +134,7 @@ function unassignedTickets()
 {
 	var display = document.getElementById("choiceButtons");
 	var toDisplay = "<input type='button' value='View All Tickets' onclick='allTickets()'><input type='button' value='Sort' onclick='sortBy()'><input type='button' value='View Selected Ticket' onclick='selectTicket()'><br/>"
-	+"<input type='button' value='View My Tickets' onclick='myTickets()'><input type='button' value='Logout' onclick='logout()'><input type='button' value='View Open Tickets' onclick='openTickets()'>";
+	+"<input type='button' value='View My Tickets' onclick='myTickets()'><input type='button' value='Logout' onclick='logout()'><input type='button' value='View Open Tickets' onclick='openTickets()'><input type = 'button' value = 'Change Password' onclick = 'changePass()'>";
 	
 	display.innerHTML = toDisplay
 	
@@ -548,6 +548,107 @@ function closeOrOpen()
 
 		httpRequest.onreadystatechange = function() { displayTable(httpRequest);};
 		httpRequest.send(data);
+}
+
+function changePass()
+{
+	var display = document.getElementById("ticketTable");
+	
+	var passForm = "<form name='passForm' id='passForm'>"
+		+"Old Password: <input type = 'password' name = 'oldPass' size = '30' maxlength = '30' value=''><br/>"
+		+"New Password: <input type = 'password' name = 'newPass' size = '30' maxlength = '30' value=''><br/>"
+		+"<input type = 'button' value = 'Change Password' onclick = 'checkNewPass()'></form>"
+		
+	display.innerHTML = passForm + "<br/>";
+	
+	display = document.getElementById("choiceButtons");
+	
+	var toDisplay = "<input type = 'button' value = 'Go Back To Table' onclick = 'openTickets()'>";
+		
+	display.innerHTML = toDisplay;
+}
+
+function checkNewPass()
+{
+	var oldPass = document.passForm.oldPass.value;
+	var newPass = document.passForm.newPass.value;
+	
+	if(oldPass=="")
+	{
+		alert("Old password not entered");
+		document.passForm.oldPass.focus();
+	}
+	else if(newPass=="")
+	{
+		alert("New password not entered");
+		document.passForm.newPass.focus();
+	}
+	if (window.XMLHttpRequest) 
+	{ 
+		httpRequest = new XMLHttpRequest();
+		if (httpRequest.overrideMimeType) 
+		{
+			httpRequest.overrideMimeType('text/xml');
+		}
+		else;
+	}
+	else if (window.ActiveXObject) 
+	{
+		try 
+		{
+			httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		}
+		catch (e) 
+		{
+			try 
+			{
+				httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			catch (e) {}
+		}
+	}
+
+	if(!httpRequest)
+	{
+		alert("XMLHTTP instance could not be made!");
+		return false;
+	}
+	else;
+
+	var data = "oldPass=" + oldPass + "&newPass=" + newPass;
+	
+	httpRequest.open('POST', 'changePass.php', true);
+	httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+	httpRequest.onreadystatechange = function() { passwordChanged(httpRequest);};
+	httpRequest.send(data);
+}
+
+function passwordChanged()
+{
+	if(httpRequest.readyState==4)
+	{
+		if(httpRequest.status == 200)
+		{
+			var response = httpRequest.responseText;
+			if(response == "OK")
+			{
+				alert("Your password has been changed");
+			}
+			else if(response == "WRONG")
+			{
+				alert("Your old password was incorrect, please ensure that you entered it correctly");
+			}
+			else
+			{
+				alert("There was an error in changing your password");
+				//alert(response);
+			}
+		}
+		else
+			alert("There was a problem with the HTTP request");
+	}
+	else;
 }
 
 function sortBy()
