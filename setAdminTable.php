@@ -18,8 +18,8 @@
 		$result = $db->query($query) or die ($db->error);
 		$rows = $result->num_rows;
 		
-		echo "<table name='table' id='table' border = '1'><caption><h2>Open Tickets</h2></caption>";
-		echo "<tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr>";
+		echo "<table id='table' border = '1'><caption><h2>Open Tickets</h2></caption>";
+		echo "<thead><tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr></thead>";
 		
 		echo "<tbody>";
 		for($i = 0; $i < $rows; $i++)
@@ -35,6 +35,7 @@
 			echo "</tr>";
 		}
 		echo "</tbody>";
+		
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'ticket' id = 'ticketRadio'> </td>";
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'received' id = 'receivedRadio'> </td>";
 		echo "<td>Sort By <input type = 'radio' name = 'sort' value = 'sender' id = 'senderRadio'> </td>";
@@ -50,7 +51,7 @@
 		$rows = $result->num_rows;
 		
 		echo "<table name='table' id='table' border = '1'><caption><h2>All Tickets</h2></caption>";
-		echo "<tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr>";
+		echo "<thead><tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr></thead>";
 		
 		echo "<tbody>";
 		for($i = 0; $i < $rows; $i++)
@@ -81,7 +82,7 @@
 		$rows = $result->num_rows;
 		
 		echo "<table name='table' id='table' border = '1'><caption><h2>Your Tickets</h2></caption>";
-		echo "<tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr>";
+		echo "<thead><tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr></thead>";
 		
 		echo "<tbody>";
 		for($i = 0; $i < $rows; $i++)
@@ -112,7 +113,7 @@
 		$rows = $result->num_rows;
 		
 		echo "<table name='table' id='table' border = '1'><caption><h2>Unassigned Tickets</h2></caption>";
-		echo "<tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr>";
+		echo "<thead><tr align = 'center'><th>Ticket #</th> <th>Receieved</th><th>Sender</th><th>Email</th><th>Subject</th><th>Tech</th><th>Status</th><th>Selection</th></tr></thead>";
 		
 		echo "<tbody>";
 		for($i = 0; $i < $rows; $i++)

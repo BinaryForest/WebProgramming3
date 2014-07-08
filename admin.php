@@ -651,28 +651,102 @@ function passwordChanged()
 	else;
 }
 
+
+/*
+* Checks which sorting option was selected and calls the sortTable function using that as a parameter
+*/
 function sortBy()
 {
-	if(document.getElementById("ticketRadio").checked) // Look at each radio button for sorting to see what user wishes to sort by
+	if(document.getElementById("ticketRadio").checked || document.getElementById("receivedRadio").checked) // Since ticket numbers are assigned incrementally as received ticket number ordering and date ordering are the same
 	{
-		alert("Sort by ticket");
-	}
-	else if(document.getElementById("receivedRadio").checked)
-	{
-		alert("Sort by received");
+		//alert("Sort by ticket");
+		sortTable(0);
 	}
 	else if(document.getElementById("senderRadio").checked)
 	{
-		alert("Sort by sender");
+		//alert("Sort by sender");
+		sortTable(2);
 	}
 	else if(document.getElementById("emailRadio").checked)
 	{
-		alert("Sort by email");
+		//alert("Sort by email");
+		sortTable(3);
 	}
 	else if(document.getElementById("subjectRadio").checked)
 	{
-		alert("Sort by subject");
+		//alert("Sort by subject");
+		sortTable(4);
 	}
+	else
+		alert("No sorting option selected");
+}
+
+/*
+*	Makes an array of the ticketTable body using the relevant column info and sorts the array by the chosen column,
+*   then changes the table body to reflect the newly sorted arrangement
+*/
+function sortTable(column)
+{
+	var table = document.getElementById('table');
+	var tableBody = table.getElementsByTagName('tbody')[0];
+	var tableRows = tableBody.getElementsByTagName('tr');
+	
+	var rows = new Array();
+	var i;
+	var value;
+	var tableCol
+	// Make array containing the relevant column values for each row of the table, and keep track of their old place in the table
+	for(i = 0; i < tableRows.length; i++)
+	{
+		rows[i] = new Object;
+		rows[i].old = i;
+		tableCol = tableRows[i].getElementsByTagName('td')[column];
+		value = tableCol.firstChild.nodeValue;
+		rows[i].value = value;
+	}
+	if(column < 1) // Sorting by ticket number, need to use our intSort
+	{
+		rows.sort(intSort)
+	}
+	
+	else // Every other option means sorting alphabetically
+	{
+		rows.sort(alphaSort);
+	}
+	
+	var sortedBody = document.createElement('tbody');
+	
+	// Go through each row in the old table body and build a new table body using our sorted order
+	for (i = 0; i < tableRows.length; i++) 
+	{
+		sortedBody.appendChild(tableRows[rows[i].old].cloneNode(true));
+	}	
+	// Finally, replace the old body with our sorted one
+	table.replaceChild(sortedBody, tableBody);
+}
+
+
+
+// Since Javascript sorts alphabetically by default we need to implement a sorting function for integers
+function intSort(x, y) 
+{
+	var xInt = parseInt(x.value);
+	var yInt = parseInt(y.value);
+	return (xInt - yInt);
+}
+
+// Can't use the default js sort because these are objects so we need their values accessed for sorting
+function alphaSort(x, y)
+{
+	var xString = x.value;
+	var yString = y.value;
+	
+	if(xString == yString)
+		return 0;
+	else if(xString < yString)
+		return -1;
+	else
+		return 1;
 }
 
 </script>
@@ -680,7 +754,7 @@ function sortBy()
 
 <body>
 
-<div id='ticketTable'><</div>
+<div id='ticketTable'></div>
 <div id='choiceButtons'></div>
 
 <script type="text/javascript">
